@@ -1,0 +1,53 @@
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/prop-types@15.6.2/prop-types.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+<div id='root'><div>
+
+<script type="text/babel">
+
+    class App extends React.Component {
+        state = {lapse:0 , running:false}
+
+        onClickStart = () => {
+            this.setState(state => {
+                if(state.running){
+                    clearInterval(this.timer);
+                }else{
+                    const startTime = new Date() - this.state.lapse;
+                    this.timer = setInterval(() => {
+                        this.setState({lapse: new Date() - startTime})
+                    })
+                }
+                return {running: !state.running}
+            })
+        }
+
+        onClickStop = () => {
+            clearInterval(this.timer);
+            this.setState({lapse:0,running:false});
+        }
+
+        render(){
+            const {lapse,running} = this.state;
+            return(
+                <div>
+                    <h1>{lapse} ms</h1>
+                    <button onClick={this.onClickStart}>{!this.state.running?'Start':'Stop'}</button>
+                    <button onClick={this.onClickStop}>Clear</button>
+                </div>
+            )
+        }
+    }
+
+
+    const renderApp = () => {
+        ReactDOM.render(
+            <App/>,
+            document.getElementById('root')
+        )
+    }
+
+    renderApp();
+</script>
