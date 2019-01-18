@@ -1,0 +1,58 @@
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/prop-types@15.6.2/prop-types.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+<div id='root'><div>
+
+<script type="text/babel">
+
+    class NameForm extends React.Component {
+        state = {error: this.props.getError('')}
+        submit = event => {
+            event.preventDefault();
+            const value = this.inputNode.value;
+            const error = this.props.getError(value);
+            if(error){
+                alert(error);
+            }else{
+                alert(value);
+            }
+        }
+
+        change = event => {
+            this.setState({error:this.props.getError(event.target.value)});
+        }
+
+        render(){
+            return (
+                <form  onSubmit={this.submit}>
+                    <label>
+                        Name:
+                        <input type='text' onChange={this.change} ref={node => this.inputNode = node}/>
+                    </label>
+                    <button disabled={this.state.error} type='submit'>Submit</button>
+                    {this.state.error?<div style={{color:'red'}}>{this.state.error}</div>:null}
+                </form>
+            )
+        }
+    }
+
+   
+    const getError = value => {
+            if(value.length > 5){
+                return 'Your name should not have more than 5 characters!'
+            }
+    }
+
+    const render = () => {
+        const rootElement = document.getElementById('root')
+        ReactDOM.render(
+            <NameForm getError={getError}/>,
+            root
+        )
+    }
+
+    render();
+
+</script>
