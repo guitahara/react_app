@@ -29,10 +29,10 @@
 
                 render(){
                         const {firstName,lastName} = this.props;
-                        return (
-                                <div>
-                                Hello {this.props.firstName} {this.props.lastName}!
-                                </div>
+
+                        return (firstName && lastName
+                                ? <div>Hello {this.props.firstName} {this.props.lastName}!</div>
+                                : <div>Nome não informado!</div>
                         ) 
                 }
         }
